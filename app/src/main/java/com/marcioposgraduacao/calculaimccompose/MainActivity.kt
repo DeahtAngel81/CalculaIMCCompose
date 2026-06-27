@@ -1,6 +1,5 @@
 package com.marcioposgraduacao.calculaimccompose
 
-import android.R.attr.text
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -43,23 +41,29 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
+@Preview
 @Composable
 fun CalculaIMCScreen(modifier: Modifier = Modifier) {
 
     var peso by rememberSaveable { mutableStateOf("") }
     var altura by rememberSaveable { mutableStateOf("") }
-    var resultado by rememberSaveable { mutableStateOf( "0.00" ) }
+    var resultado by rememberSaveable { mutableStateOf("0.00") }
+
 
     val calcularIMC = {
         val pesoDouble = peso.toDoubleOrNull()?: 0.0
         val alturaDouble = altura.toDoubleOrNull()?: 0.0
 
         if ( pesoDouble != 0.0 && alturaDouble != 0.0 ) {
-            val imc = pesoDouble / (alturaDouble * alturaDouble)
+            val imc: Double = pesoDouble / (alturaDouble * alturaDouble)
             resultado = "%.2f".format(imc)
         }
     }
+
+   /* val limparTela : () -> Unit() {
+
+    }*/
+
 
     Column(
         modifier = modifier
@@ -93,7 +97,7 @@ fun CalculaIMCScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(8.dp)
         )
         Text(
-            text = "0.00",
+            text = resultado,
             modifier = Modifier.padding(8.dp)
         )
 
@@ -121,6 +125,14 @@ fun CalculaIMCScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun CalculaIMCScreenPreview() {
+    CalculaIMCComposeTheme {
+        CalculaIMCScreen()
+    }
+}
+
+@Preview(showBackground = true, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun CalculaIMCScreenDarkPreview() {
     CalculaIMCComposeTheme {
         CalculaIMCScreen()
     }
